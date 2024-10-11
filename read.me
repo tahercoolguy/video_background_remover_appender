@@ -1,0 +1,76 @@
+# Background Remover Cog Model for Replicate
+
+This repository contains a Cog model for running the Background Remover video processing model on Replicate. The Background Remover is an AI model that removes or replaces the background in videos.
+
+## How it Works
+
+The model uses a two-step process:
+
+1. **Background Segmentation**: Uses the BiRefNet model to create a mask for each frame, separating the foreground from the background.
+2. **Background Replacement**: Replaces the background with either a solid color, an image, or another video.
+
+## Running on Replicate
+
+This model is designed to run on Replicate. You can find it [here](YOUR_REPLICATE_MODEL_LINK).
+
+### Inputs:
+
+- **input_video**: The input video you want to process.
+- **bg_type**: The type of background to use (Color, Image, or Video).
+- **bg_image**: The background image to use (if bg_type is Image).
+- **bg_video**: The background video to use (if bg_type is Video).
+- **color**: The background color to use (if bg_type is Color).
+- **fps**: Output FPS (0 will inherit the original fps value).
+- **video_handling**: How to handle background video if it's shorter than the input video (slow_down or loop).
+
+### Outputs:
+
+- A video in MP4 format with the background removed or replaced.
+
+## How to Use
+
+1. Upload your input video.
+2. Choose the background type (Color, Image, or Video).
+3. Depending on your choice, provide the necessary background (color, image, or video).
+4. Adjust the FPS if needed (0 to keep original).
+5. If using a background video, choose how to handle it if it's shorter than the input video.
+6. Run the model and wait for the processed video.
+
+## Technical Details
+
+The model uses the following key components:
+
+- BiRefNet for image segmentation
+- PyTorch for deep learning operations
+- MoviePy for video processing
+- Pillow for image processing
+
+The main processing steps are:
+
+1. Load and prepare the input video
+2. Process each frame:
+   - Apply the BiRefNet model to create a mask
+   - Composite the frame with the chosen background
+3. Reassemble the processed frames into a video
+4. Add the original audio back to the processed video
+
+## Running Locally (Optional)
+
+To run this model locally, you'll need:
+
+- Python 3.10
+- CUDA-compatible GPU
+- Cog (`pip install cog`)
+
+Follow these steps:
+
+1. Clone this repository
+2. Navigate to the project directory
+3. Run `cog predict -i input_video=@path_to_your_video.mp4 -i bg_type="Color" -i color="#00FF00"`
+
+Replace the input parameters as needed.
+
+## Credits
+
+- This model uses the BiRefNet architecture for image segmentation, developed by ZhengPeng7.
+- Special thanks to multiplewords.com for providing the model on Replicate.
