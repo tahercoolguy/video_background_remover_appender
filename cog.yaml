@@ -11,4 +11,5 @@ build:
     - pip install accelerate opencv-python pillow numpy timm kornia prettytable scikit-image huggingface_hub transformers>=4.39.1 gradio gradio_imageslider loadimg>=0.1.1 moviepy pydub
     - pip install spaces typing
 
+
 predict: "predict.py:Predictor"

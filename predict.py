@@ -7,6 +7,7 @@ from PIL import Image
 import numpy as np
 from transformers import AutoModelForImageSegmentation
 
+
 torch.set_float32_matmul_precision("medium")
 
 class Predictor(BasePredictor):
