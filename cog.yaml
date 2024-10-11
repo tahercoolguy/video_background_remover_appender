@@ -10,6 +10,7 @@ build:
     - pip install torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121 -U
     - pip install accelerate opencv-python pillow numpy timm kornia prettytable scikit-image huggingface_hub transformers>=4.39.1 gradio gradio_imageslider loadimg>=0.1.1 moviepy pydub
     - pip install spaces typing
-
+    - pip install cog==0.8.5  # or the latest version compatible with Pydantic V2
+    - pip install pydantic==2.9.0  # or the version you're using
 
 predict: "predict.py:Predictor"
