@@ -133,8 +133,11 @@ class Predictor(BasePredictor):
     def process(self, image, bg, target_width, target_height):
         # Calculate center padding for the input image
         image = ImageOps.contain(image, (target_width, target_height))
-        # Create a transparent background of target size
-        padded_image = Image.new('RGBA', (target_width, target_height), (0, 0, 0, 0))
+        # Convert to RGB to ensure consistency
+        image = image.convert('RGB')
+        
+        # Create a background of target size
+        padded_image = Image.new('RGB', (target_width, target_height), (0, 0, 0))
         # Paste the resized image in the center
         paste_x = (target_width - image.size[0]) // 2
         paste_y = (target_height - image.size[1]) // 2
@@ -153,15 +156,15 @@ class Predictor(BasePredictor):
 
         # Handle background based on type
         if isinstance(bg, str) and bg.startswith("#"):
-            # For solid color, simply create a filled background
-            background = Image.new("RGBA", (target_width, target_height), 
-                                 tuple(int(bg[i:i+2], 16) for i in (1, 3, 5)) + (255,))
+            # For solid color, create RGB background
+            background = Image.new("RGB", (target_width, target_height), 
+                                 tuple(int(bg[i:i+2], 16) for i in (1, 3, 5)))
         else:
             # For image or video frame backgrounds
             if isinstance(bg, Image.Image):
-                bg_image = bg.convert("RGBA")
+                bg_image = bg.convert("RGB")
             else:
-                bg_image = Image.open(bg).convert("RGBA")
+                bg_image = Image.open(bg).convert("RGB")
             
             # Calculate aspect ratios
             target_ratio = target_width / target_height
@@ -180,7 +183,7 @@ class Predictor(BasePredictor):
             bg_image = bg_image.resize((new_width, new_height), Image.Resampling.LANCZOS)
             
             # Create a new image with target dimensions
-            background = Image.new("RGBA", (target_width, target_height), (0, 0, 0, 0))
+            background = Image.new("RGB", (target_width, target_height), (0, 0, 0))
             
             # Calculate position to center the background
             x = (target_width - new_width) // 2
